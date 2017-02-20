@@ -1,0 +1,41 @@
+fmod BATTERY-MAUDE is
+  sorts Cell ECell Battery EBattery .
+  subsorts ECell < Cell < Battery .
+  subsorts ECell < EBattery < Battery .
+  op o : -> Cell .
+  op + : -> Cell .
+  op - : -> ECell .
+  op nil : -> EBattery .
+  op _^_ : EBattery EBattery -> EBattery [assoc id: nil] .
+  op _^_ : Battery Battery -> Battery [assoc id: nil] .
+  op consume : Battery -> Battery .
+  var Bt : Battery . var EBt : EBattery .
+  eq consume(EBt ^ o ^ Bt) = EBt ^ + ^ Bt .
+  eq consume(EBt ^ + ^ Bt) = EBt ^ - ^ Bt .
+  eq consume(Bt) = Bt [owise] .
+endfm
+
+*** EJERCICIO 2 *** EBattery que no sea ECell y Battery que no sea EBattery ni ECell
+
+--- El ejemplo de término de tipo EBattery pero no ECell sería la batería nil.
+--- Por otra parte, un ejemplo de Battery que no es EBattery ni Cell sería cualquier
+--- batería distinta de nil, como por ejemplo o ^ o.
+
+*** EJERCICIO 3 *** Para qué sirve diferenciar ECell dentro de Cell?
+
+--- Por ejemplo, si se usase esta notación para un juego de damas, o podrían ser
+--- las fichas rojas, + podrían ser las negras y - los cuadros del tablero libres.
+--- Así, una o o un + solo podrían cambiarse por un -.
+
+*** EJERCICIO 4 *** Valores que pueden tomar un EBattery y un Battery, con 2 celdas.
+
+--- EBattery: solo puede ser nil o, lo que es lo mismo, - ^ -
+--- Battery: hay 9 posibilidades: además de la anterior, tendríamos o ^ o, o ^ +,
+--- + ^ o, + ^ +, o ^ -, - ^ o, o ^ + y + ^ o
+
+*** EJERCICIO 5 *** Qué tipo devuelve la ejecución de red in ... : consume(- ^ -) .?
+
+--- Devuelve un tipo EBattery, como cabía esperar, y significa que sobre una batería
+--- vacía no se puede hacer consume, o que no tiene ningún efecto, tal y como vemos
+--- en la línea 15 de código, que es la única ecuación con la que hace matching esta
+--- ejecución.
