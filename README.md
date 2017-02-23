@@ -1,5 +1,5 @@
-# MFI Practices
+# MFI Lab work
 
-- [Practice 1][Practice1]
+- [Session 1][Session1]
 
-[Practice1]: https://github.com/frnlpz/MFI/tree/master/practica%201
+[Session1]: https://github.com/frnlpz/MFI/tree/master/practica%201
