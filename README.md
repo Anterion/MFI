@@ -1,4 +1,4 @@
-# Practices MFI
+# MFI Practices
 
 - [Practice 1][Practice1]
 
