@@ -1,0 +1,24 @@
+mod ELEVATOR is
+  protecting NAT .
+
+  sorts Boton Pulsado Puertas Sentido Botones Ascensor .
+  ops x o : -> Pulsado .
+  ops <> >< : -> Puertas .
+  ops up down : -> Sentido .
+  op b_[_] : Nat Pulsado -> Boton .
+
+  subsort Boton < Botones .
+  op vacio : -> Botones .
+  op __ : Botones Botones -> Botones [assoc comm id: vacio] .
+  op _‘(_,_,_‘) : Botones Nat Sentido Puertas -> Ascensor .
+
+  var Bts : Botones . var Piso : Nat .
+  var UD : Sentido . var P : Puertas .
+
+  rl [cerrar] : Bts (Piso,UD,<>) => Bts (Piso,UD,><) .
+  crl [subir] : Bts (Piso,up,P) => Bts (Piso + 1,up,><) if Piso < 3 .
+  crl [bajar] : Bts (Piso,down,P) => Bts (sd(Piso,1),down,><) if 1 < Piso .
+  crl [siguesub] : Bts (Piso,up,P) => Bts (Piso + 1,up,><) if b(Piso + 1)[o] .
+  crl [siguebaj] : Bts (Piso,down,P) => Bts (sd(Piso,1),down,><) if b(sd(Piso,1))[o] .
+
+endm
