@@ -3,8 +3,7 @@
 ### Ejercicio 1
 #### Que devuelve `red in ... : consume(- ^ - ^ nil)`?
 
-El programa original devuelve `consume(- ^ - ^ nil)`.
-Para arreglarlo, añadimos a la linea 13 `eq consume(nil) = nil .`. Esto hace que cuando se intente consumir nil devuelva la lista vacia y `consume (... nil)`.
+El programa original devuelve `consume(- ^ - ^ nil)`. No se puede consumir una batería vacía, asi que devuelve la misma batería.
 
 ### Ejercicio 2
 #### _EBattery_ que no sea _ECell_ y _Battery_ que no sea _EBattery_ ni _ECell_
@@ -15,12 +14,12 @@ Cualquier batería distinta de nil valdria para el segundo enunciado.
 ### Ejercicio 3
 #### Para que sirve diferenciar _ECell_ dentro de _Cell_?
 
-Para poder representar casillas vacias.
+Para poder representar casillas vacias y crear un nuevo comportamiento dentro del tipo _Cell_
 
 ### Ejercicio 4
 #### Valores que pueden tomar un _EBattery_ y un _Battery_ con 2 celdas.
 
-* _EBattery_ solo puede ser nil (es decir, `- ^ -`)
+* _EBattery_ solo puede ser `-` y `nil`
 * _Battery_ tiene 9 valores posibles (todas las combinaciones de `o`, `+` y `-` en 2 espacios)
 
 ### Ejercicio 5
@@ -31,7 +30,7 @@ Devuelve _EBattery_. Significa que sobre una batería vacía no se puede hacer `
 ### Ejercicio 6
 #### Qué se obtiene al ejecutar `red in BATTERY-LEFT-RIGHT : consume-left-right(- ^ o ^ o) .` ?
 
-Devuelve `consume-left-right(- ^ o ^ o)`. Intenta ejecutar una ecuación, pero en este caso casi todas las definiciones son reglas `rl`.
+Devuelve `consume-left-right(- ^ o ^ o)`. Intenta ejecutar una ecuación, pero en este caso casi todas las definiciones son reglas `rl` y por tanto el resultado no es determinista.
 
 ### Ejercicio 7
 #### Qué se obtiene al ejecutar `rew in BATTERY-LEFT-RIGHT : consume-left-right(- ^ o ^ o) .` ?
@@ -54,7 +53,7 @@ No more solutions.
 states: 3  rewrites: 2 in 1ms cpu (0ms real) (2000 rewrites/second)
 ```
 
-`search` intenta hacer matching con las reglas definidas.
+`search` intenta hacer matching con las reglas definidas. En este caso, `=>!` busca estados finales que no puedan ser reescritos mas veces que den lugar a una `Battery`.
 
 ### Ejercicio 9
 #### Qué se obtiene al ejecutar `search in BATTERY-LEFT-RIGHT : consume-left-right(- ^ o ^ o) =>* Bt:Battery .` ?
@@ -75,4 +74,6 @@ Bt --> - ^ o ^ +
 No more solutions.
 states: 3  rewrites: 2 in 0ms cpu (0ms real) (~ rewrites/second)
 ```
+
+En este caso, `=>*` ejecuta reglas hasta encontrar resultados que hayan pasado por 0, 1 o más pasos hasta llegar a una `Battery`.
 
