@@ -26,27 +26,26 @@ mod SEMAPHORE is
   --- que define la situacion global de todo nuestro sistema
   sort GlobalState .
   op _||_||_ : Semaphore Nat PSet -> GlobalState .
-  
+
   var N : Nat . var PS : PSet . var M : Nat .
   var S : Semaphore . var Id : Nat .
 
   --- incrementar ticket servido (en base 10)
   rl false || N || PS  => false || (N + 1) rem 10 || PS .
-  
-  --- 
-  rl S || N || p Id [M] {idle} PS --- Sigue en idle
-  => S || N || p Id [M] {idle} PS .
-  
-  rl S || N || p Id [N] {idle} PS --- Pasa a entering
-  => S || N || p Id [N] {entering} PS .
-  
-  rl false || N || p Id [N] {entering} PS --- Pasa a critical
-  => true || N || p Id [N] {critical} PS .
 
-  rl S || N || p Id [N] {critical} PS ---El proceso sale de critical
-  => S || N || p Id [N] {exiting} PS .
-  
-  rl S || N || p Id [N] {exiting} PS --- El proceso sale de la zona critical
-  => false || N || p Id [N] {idle} PS .
+  --- sigue en idle
+  rl S || N || p Id [M] {idle} PS => S || N || p Id [M] {idle} PS .
+
+  --- pasa a entering
+  rl S || N || p Id [N] {idle} PS => S || N || p Id [N] {entering} PS .
+
+  --- pasa a critical
+  rl false || N || p Id [N] {entering} PS => true || N || p Id [N] {critical} PS .
+
+  --- el proceso procede a salir de critical
+  rl S || N || p Id [N] {critical} PS => S || N || p Id [N] {exiting} PS .
+
+  --- el proceso sale de la zona critical
+  rl S || N || p Id [N] {exiting} PS => false || N || p Id [N] {idle} PS .
   
 endm

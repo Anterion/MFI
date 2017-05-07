@@ -12,13 +12,18 @@ mod ELEVATOR is
   op __ : Botones Botones -> Botones [assoc comm id: vacio] .
   op _‘(_,_,_‘) : Botones Nat Sentido Puertas -> Ascensor .
 
-  var Bts : Botones . var Piso : Nat .
+  var Bts : Botones . var Piso : Nat . var Piso2 : Nat .
   var UD : Sentido . var P : Puertas .
 
   rl [cerrar] : Bts (Piso,UD,<>) => Bts (Piso,UD,><) .
   crl [subir] : Bts (Piso,up,P) => Bts (Piso + 1,up,><) if Piso < 3 .
   crl [bajar] : Bts (Piso,down,P) => Bts (sd(Piso,1),down,><) if 1 < Piso .
-  crl [siguesub] : Bts (Piso,up,P) => Bts (Piso + 1,up,><) if b(Piso + 1)[o] .
-  crl [siguebaj] : Bts (Piso,down,P) => Bts (sd(Piso,1),down,><) if b(sd(Piso,1))[o] .
+  rl [abrir] : Bts (Piso,UD,><) => Bts (Piso,UD,<>) .
+  rl [cambiasubir] : b 3 [o] Bts (3,up,P) => b 3 [o] Bts (3,down,><) .
+  rl [cambiasubir] : b 2 [o] b 3 [o] Bts (2,up,P) => b 2 [o] b 3 [o] Bts (2,down,><) .
+  rl [cambiasubir] : b 1 [o] b 2 [o] b 3 [o] Bts (1,up,P) => b 1 [o] b 2 [o] b 3 [o] Bts (1,down,><) .
+  rl [cambiabajar] : b 0 [o] Bts (0,down,P) => b 0 [o] Bts (0,up,><) .
+  rl [cambiabajar] : b 1 [o] b 0 [o] Bts (1,down,P) => b 1 [o] b 0 [o] Bts (1,up,><) .
+  rl [cambiabajar] : b 2 [o] b 1 [o] b 0 [o] Bts (2,down,P) => b 2 [o] b 1 [o] b 0 [o] Bts (2,up,><) .
 
 endm
